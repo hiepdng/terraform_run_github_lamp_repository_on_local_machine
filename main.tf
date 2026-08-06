@@ -21,6 +21,7 @@ resource "null_resource" "lamp_stack" {
         git clone https://github.com/hiepdng/docker_build_DHI_LAMP_Project.git
       fi
       cd docker_build_DHI_LAMP_Project
+      sh setup.sh
       docker compose up -d || docker-compose up -d
     EOT
   }
