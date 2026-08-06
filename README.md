@@ -1,0 +1,1 @@
+# terraform_run_github_lamp_repository_on_local_machine
