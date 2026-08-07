@@ -30,7 +30,7 @@ resource "null_resource" "lamp_stack" {
 
 provisioner "local-exec" {
     when        = destroy
-    on_failure  = fail
+    on_failure  = continue
     interpreter = ["/bin/bash", "-c"]
     command     = <<EOT
       if [ ! -d "${self.triggers.dir_name}" ]; then
