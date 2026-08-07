@@ -27,10 +27,22 @@ jobs:
 
       - name: Terraform Init
         run: terraform init
+
+      # Output the plan to a binary file named 'tfplan'
+      - name: Terraform Plan
+        run: terraform plan -out=tfplan
+
+      # Upload the binary plan file as a workflow artifact
+      - name: Upload Plan Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: terraform-plan-file
+          path: tfplan
+          #retention-days: 1  # Short retention for security
           
       - name: Terraform Apply
         #if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: terraform apply -auto-approve 
+        run: terraform apply -auto-approve tfplan
 
 
 
