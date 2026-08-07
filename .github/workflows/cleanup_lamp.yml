@@ -29,7 +29,8 @@ jobs:
           run-id: ${{ github.eventinputs.run_id }}
           
       - name: Terraform destroy
-        run: terraform destroy -auto-approve tfplan
+        #run: terraform destroy -auto-approve tfplan
+        run: terraform apply tfplan
 
       #- name: Remove images
       #  run: docker rmi $(docker images --filter "reference=lamp-*" -q)
