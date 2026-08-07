@@ -19,8 +19,18 @@ jobs:
           terraform_version: "1.7.0"
 
       - name: Terraform init
-        run: |
-          terraform init
+        run: terraform init
+
+      # Output the plan to a binary file named 'tfplan'
+      - name: Terraform Plan
+        run: terraform plan -out=tfplan
+
+      # Upload the binary plan file as a workflow artifact
+      - name: Upload Plan Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: terraform-plan-file
+          path: tfplan
           
       - name: Download Plan Artifact
         uses: actions/download-artifact@v4
