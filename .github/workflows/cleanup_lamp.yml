@@ -17,26 +17,7 @@ jobs:
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.7.0
-
-      - name: Load .env file variables
-        run: |
-          if [ -f .env ]; then
-            while IFS= read -r line || [ -n "$line" ]; do
-              # Skip comments and empty lines
-              [[ "$line" =~ ^#.*$ ]] || [ -z "$line" ] && continue
-              echo "$line" >> $GITHUB_ENV
-            done < .env
-          else
-            echo ".env file not found"
-          fi
           
       - name: Terraform destroy
-        run: |
-          if [ -d "docker_build_DHI_LAMP_Project" ]; then
-            cd docker_build_DHI_LAMP_Project
-            docker compose down || docker-compose down
-            docker rmi "${PROJECT_NAME}-${HTTPDVERSION}" || true
-            docker rmi "${PROJECT_NAME}-${MYSQLVERSION}" || true
-            docker rmi "${PROJECT_NAME}-${PHPVERSION}" || true
-            docker network ls --filter name=lamp_network -q |xargs -r docker network rm
-          fi
+        run: terraform destroy -auto-approve
+   
