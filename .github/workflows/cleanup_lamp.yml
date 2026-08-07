@@ -12,10 +12,27 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.7.0
 
+      - name: Load .env file variables
+        run: |
+          if [ -f .env ]; then
+            while IFS= read -r line || [ -n "$line" ]; do
+              # Skip comments and empty lines
+              [[ "$line" =~ ^#.*$ ]] || [ -z "$line" ] && continue
+              echo "$line" >> $GITHUB_ENV
+            done < .env
+          else
+            echo ".env file not found"
+          fi
+          
       - name: Terraform destroy
         run: |
           terraform destroy -auto-approve
-          #terraform destroy -target=docker_image."${PROJECT_NAME}-${HTTPDVERSION}"
-          #terraform destroy -target=docker_image."${PROJECT_NAME}-${MYSQLVERSION}"
-          #terraform destroy -target=docker_image."${PROJECT_NAME}-${PHPVERSION}"
+          terraform destroy -target=docker_image."${PROJECT_NAME}-${HTTPDVERSION}"
+          terraform destroy -target=docker_image."${PROJECT_NAME}-${MYSQLVERSION}"
+          terraform destroy -target=docker_image."${PROJECT_NAME}-${PHPVERSION}"
