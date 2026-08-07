@@ -16,7 +16,7 @@ jobs:
       - name: Terraform destroy
         run: terraform destroy -auto-approve
 
-      - name: Remove container and images
+      - name: Remove containers, images and network
         run: |
           # Remove contrainers
           docker rm -f lamp-httpd lamp-mysql lamp-php-fpm  || true
