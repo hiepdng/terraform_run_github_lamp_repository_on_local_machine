@@ -17,21 +17,13 @@ jobs:
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: "1.7.0"
-
-      - name: Terraform Init
-        run: terraform init
         
       - name: Terraform destroy
         run: |
+          terraform init
           terraform apply -auto-approve
           terraform destroy -auto-approve
 
-      #- name: Remove containers, images and network
-      #  run: |
-      #    # Remove contrainers
-      #    docker rm -f lamp-httpd lamp-mysql lamp-php-fpm  || true
-      #    # Remove images
-      #    docker rmi $(docker images --filter "reference=lamp-*" -q)
-      #    # Remove docker network
-      #    docker network ls --filter name=lamp_network -q |xargs -r docker network rm
-   
+      #- name: Remove images
+      #  run: docker rmi $(docker images --filter "reference=lamp-*" -q)
+      
