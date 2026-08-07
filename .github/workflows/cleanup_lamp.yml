@@ -17,12 +17,18 @@ jobs:
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: "1.7.0"
-        
-      - name: Terraform destroy
+
+      - name: Terraform init
         run: |
           terraform init
-          terraform apply -auto-approve
-          terraform destroy -auto-approve
+          
+      - name: Download Plan Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: terraform-plan-file
+          
+      - name: Terraform destroy
+        run: terraform destroy -auto-approve tfplan
 
       #- name: Remove images
       #  run: docker rmi $(docker images --filter "reference=lamp-*" -q)
