@@ -27,16 +27,17 @@ resource "null_resource" "lamp_stack" {
   }
 
   # Shut down containers when running terraform destroy
-#  provisioner "local-exec" {
-#    when    = destroy
-#    command = <<EOT
-#      # Remove contrainers
-#      if [ -d "docker_build_DHI_LAMP_Project" ]; then
-#        cd docker_build_DHI_LAMP_Project
-#        docker compose down || docker-compose down
-#      fi
+  provisioner "local-exec" {
+    when    = destroy
+    command = <<EOT
+      # Remove contrainers
+      if [ -d "docker_build_DHI_LAMP_Project" ]; then
+        cd docker_build_DHI_LAMP_Project
+        docker compose down || docker-compose down
+        docker rmi lamp-*
+      fi
       # Remove docker network
-#      docker network ls --filter name=lamp_network -q |xargs -r docker network rm
+      docker network ls --filter name=lamp_network -q |xargs -r docker network rm
     EOT
   }
 }
