@@ -12,19 +12,20 @@ This is LAMP stack project used with Docker Compose and hardened Docker images l
 <br/>
 
 **Steps to run:**  
-1.Save the file named main.tf in an empty directory.  
 
-2.Initialize Terraform:  
+1. Save the file named main.tf in an empty directory.  
+
+2. Initialize Terraform:  
 ```
 terraform init
 ```  
 
-3.Deploy the stack:  
+3. Deploy the stack:  
 ```
 terraform apply -auto-approve
 ```  
 
-4.Stop and remove the stack:  
+4. Stop and remove the stack:  
 ```
 terraform destroy -auto-approve
 ```  
