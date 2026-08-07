@@ -34,7 +34,7 @@ resource "null_resource" "lamp_stack" {
       if [ -d "docker_build_DHI_LAMP_Project" ]; then
         cd docker_build_DHI_LAMP_Project
         docker compose down || docker-compose down
-        docker rmi lamp-*
+        docker rmi $(docker images --filter "reference=lamp-*" -q)
       fi
       # Remove docker network
       docker network ls --filter name=lamp_network -q |xargs -r docker network rm
