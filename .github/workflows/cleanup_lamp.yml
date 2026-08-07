@@ -21,9 +21,7 @@ jobs:
       - name: Terraform init
         run: |
           terraform init
-          #terraform apply -auto-approve
           terraform destroy -auto-approve
-
 
       #- name: Remove images
       #  run: docker rmi $(docker images --filter "reference=lamp-*" -q)
