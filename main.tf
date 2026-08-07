@@ -31,11 +31,8 @@ resource "null_resource" "lamp_stack" {
     when    = destroy
     command = <<EOT
       # Remove contrainers
-      if [ -d "docker_build_DHI_LAMP_Project" ]; then
-        cd docker_build_DHI_LAMP_Project
-        docker compose down || docker-compose down
-        docker rmi $(docker images --filter "reference=lamp-*" -q)
-      fi
+      docker compose down || docker-compose down
+      docker rmi $(docker images --filter "reference=lamp-*" -q)
       # Remove docker network
       docker network ls --filter name=lamp_network -q |xargs -r docker network rm
     EOT
