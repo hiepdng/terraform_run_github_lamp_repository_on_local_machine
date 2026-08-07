@@ -17,7 +17,7 @@ jobs:
         #run: terraform destroy -auto-approve
         run: |
           # Remove contrainers
-          docker compose down || docker-compose down
+          docker rm -f lamp-httpd lamp-mysql lamp-php-fpm  || true
           docker rmi $(docker images --filter "reference=lamp-*" -q)
           # Remove docker network
           docker network ls --filter name=lamp_network -q |xargs -r docker network rm
