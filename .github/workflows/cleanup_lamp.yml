@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  deploy-local:
+  cleanup:
     runs-on: self-hosted
 
     steps:
