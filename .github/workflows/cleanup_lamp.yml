@@ -28,6 +28,6 @@ jobs:
       - name: Terraform destroy
         run: |
           terraform destroy -auto-approve
-          terraform destroy -target=docker_image."${PROJECT_NAME}-${HTTPDVERSION}"
-          terraform destroy -target=docker_image."${PROJECT_NAME}-${MYSQLVERSION}"
-          terraform destroy -target=docker_image."${PROJECT_NAME}-${PHPVERSION}"
+          #terraform destroy -target=docker_image."${PROJECT_NAME}-${HTTPDVERSION}"
+          #terraform destroy -target=docker_image."${PROJECT_NAME}-${MYSQLVERSION}"
+          #terraform destroy -target=docker_image."${PROJECT_NAME}-${PHPVERSION}"
