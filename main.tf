@@ -1,8 +1,6 @@
 terraform {
   required_version = ">= 1.0.0"
-  backend "local" {
-    path = "/home/temp/z/b/actions-runner/terraform.tfstate"
-  }
+
   required_providers {
     null = {
       source  = "hashicorp/null"
