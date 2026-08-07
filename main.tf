@@ -33,10 +33,8 @@ provisioner "local-exec" {
       if [ ! -d "${self.triggers.dir_name}" ]; then
         git clone ${self.triggers.repo_url}
       fi
-      if [ -d "${self.triggers.dir_name}" ]; then
-        cd "${self.triggers.dir_name}"
-        docker compose down -v || docker-compose down -v || true
-      fi
+      cd "${self.triggers.dir_name}"
+      docker compose down -v || docker-compose down -v || true
     EOT
   }
 }
