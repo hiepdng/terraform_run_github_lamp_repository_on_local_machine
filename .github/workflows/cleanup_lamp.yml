@@ -14,5 +14,11 @@ jobs:
         uses: actions/checkout@v4
           
       - name: Terraform destroy
-        run: terraform destroy -auto-approve
+        #run: terraform destroy -auto-approve
+        run: |
+          # Remove contrainers
+          docker compose down || docker-compose down
+          docker rmi $(docker images --filter "reference=lamp-*" -q)
+          # Remove docker network
+          docker network ls --filter name=lamp_network -q |xargs -r docker network rm
    
