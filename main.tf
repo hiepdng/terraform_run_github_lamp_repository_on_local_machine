@@ -25,14 +25,18 @@ resource "null_resource" "lamp_stack" {
     EOT
   }
 
-  provisioner "local-exec" {
-    when    = destroy
-    command = <<EOT
+provisioner "local-exec" {
+    when        = destroy
+    on_failure  = fail
+    interpreter = ["/bin/bash", "-c"]
+    command     = <<EOT
       if [ ! -d "${self.triggers.dir_name}" ]; then
         git clone ${self.triggers.repo_url}
       fi
-      cd "${self.triggers.dir_name}"
-      docker compose down -v || docker-compose down -v
+      if [ -d "${self.triggers.dir_name}" ]; then
+        cd "${self.triggers.dir_name}"
+        docker compose down -v || docker-compose down -v || true
+      fi
     EOT
   }
 }
