@@ -30,6 +30,11 @@ resource "null_resource" "lamp_stack" {
   provisioner "local-exec" {
     when    = destroy
     command = <<EOT
+      # Remove contrainers
+      if [ -d "docker_build_DHI_LAMP_Project" ]; then
+        cd docker_build_DHI_LAMP_Project
+        docker compose down || docker-compose down
+      fi
       # Load .env file variables
       if [ -f .env ]; then
         while IFS= read -r line || [ -n "$line" ]; do
@@ -39,11 +44,6 @@ resource "null_resource" "lamp_stack" {
         done < .env
       else
         echo ".env file not found"
-      fi
-      # Remove contrainers
-      if [ -d "docker_build_DHI_LAMP_Project" ]; then
-        cd docker_build_DHI_LAMP_Project
-        docker compose down || docker-compose down
       fi
       # Remove images
       docker rmi "${PROJECT_NAME}-${HTTPDVERSION}" || true
