@@ -22,7 +22,10 @@ jobs:
         run: terraform init
         
       - name: Terraform destroy
-        run: terraform destroy -auto-approve
+        run: |
+          cd docker_build_DHI_LAMP_Project || true
+          docker compose down -v || true
+          terraform destroy -auto-approve
 
       #- name: Remove containers, images and network
       #  run: |
