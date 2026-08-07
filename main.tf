@@ -39,10 +39,6 @@ resource "null_resource" "lamp_stack" {
         cd docker_build_DHI_LAMP_Project
         docker compose down || docker-compose down
       fi
-      # Remove images
-      docker rmi "${PROJECT_NAME}-${HTTPDVERSION}" || true
-      docker rmi "${PROJECT_NAME}-${MYSQLVERSION}" || true
-      docker rmi "${PROJECT_NAME}-${PHPVERSION}"  || true
       # Remove docker network
       docker network ls --filter name=lamp_network -q |xargs -r docker network rm
     EOT
