@@ -9,30 +9,27 @@ terraform {
 }
 
 resource "null_resource" "lamp_stack" {
-  # Trigger re-execution if the repository URL changes
   triggers = {
     repo_url = "https://github.com/hiepdng/docker_build_DHI_LAMP_Project.git"
+    dir_name = "docker_build_DHI_LAMP_Project"
   }
 
-  # Clone repository and launch containers
   provisioner "local-exec" {
     command = <<EOT
-      if [ ! -d "docker_build_DHI_LAMP_Project" ]; then
-        git clone https://github.com/hiepdng/docker_build_DHI_LAMP_Project.git
+      if [ ! -d "${self.triggers.dir_name}" ]; then
+        git clone ${self.triggers.repo_url}
       fi
-      cd docker_build_DHI_LAMP_Project
+      cd "${self.triggers.dir_name}"
       sh setup.sh
       docker compose up -d || docker-compose up -d
     EOT
   }
 
-  # Shut down containers when running terraform destroy
   provisioner "local-exec" {
     when    = destroy
     command = <<EOT
-      # Remove contrainers
-      if [ -d "docker_build_DHI_LAMP_Project" ]; then
-        cd "docker_build_DHI_LAMP_Project"
+      if [ -d "${self.triggers.dir_name}" ]; then
+        cd "${self.triggers.dir_name}"
         docker compose down || docker-compose down
       fi
     EOT
