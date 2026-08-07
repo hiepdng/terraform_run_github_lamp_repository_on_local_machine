@@ -33,7 +33,7 @@ resource "null_resource" "lamp_stack" {
       # Remove contrainers
       if [ -d "docker_build_DHI_LAMP_Project" ]; then
         cd "docker_build_DHI_LAMP_Project"
-        docker compose down || docker-compose down
+        docker compose down -v || true
       fi
     EOT
   }
