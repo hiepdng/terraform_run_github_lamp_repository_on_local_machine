@@ -8,6 +8,10 @@ terraform {
   }
 }
 
+locals {
+  envs = { for tuple in regexall("(.*)=(.*)", file(".env")) : tuple[0] => sensitive(tuple[1]) }
+}
+
 resource "null_resource" "lamp_stack" {
   # Trigger re-execution if the repository URL changes
   triggers = {
@@ -34,16 +38,6 @@ resource "null_resource" "lamp_stack" {
       if [ -d "docker_build_DHI_LAMP_Project" ]; then
         cd docker_build_DHI_LAMP_Project
         docker compose down || docker-compose down
-      fi
-      # Load .env file variables
-      if [ -f .env ]; then
-        while IFS= read -r line || [ -n "$line" ]; do
-          # Skip comments and empty lines
-          [[ "$line" =~ ^#.*$ ]] || [ -z "$line" ] && continue
-          echo "$line" >> $GITHUB_ENV
-        done < .env
-      else
-        echo ".env file not found"
       fi
       # Remove images
       docker rmi "${PROJECT_NAME}-${HTTPDVERSION}" || true
