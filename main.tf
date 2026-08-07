@@ -8,10 +8,6 @@ terraform {
   }
 }
 
-locals {
-  envs = { for tuple in regexall("(.*)=(.*)", file(".env")) : tuple[0] => sensitive(tuple[1]) }
-}
-
 resource "null_resource" "lamp_stack" {
   # Trigger re-execution if the repository URL changes
   triggers = {
