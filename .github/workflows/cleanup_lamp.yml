@@ -32,7 +32,10 @@ jobs:
           
       - name: Terraform destroy
         run: |
-          terraform destroy -auto-approve
-          terraform destroy -target=docker_image."${PROJECT_NAME}-${HTTPDVERSION}"
-          terraform destroy -target=docker_image."${PROJECT_NAME}-${MYSQLVERSION}"
-          terraform destroy -target=docker_image."${PROJECT_NAME}-${PHPVERSION}"
+          if [ -d "docker_build_DHI_LAMP_Project" ]; then
+            cd docker_build_DHI_LAMP_Project
+            docker compose down || docker-compose down
+            terraform destroy -target=docker_image."${PROJECT_NAME}-${HTTPDVERSION}"
+            terraform destroy -target=docker_image."${PROJECT_NAME}-${MYSQLVERSION}"
+            terraform destroy -target=docker_image."${PROJECT_NAME}-${PHPVERSION}"
+          fi
