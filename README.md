@@ -11,21 +11,32 @@ This is LAMP stack project used with Docker Compose and hardened Docker images l
 
 <br/>
 
-**Steps to run:**  
 
-1. Save the file named main.tf in an empty directory.  
+#### <ins>Method 1:</ins> Deploy LAMP Stack using CLI
 
+1. Login to dockerhub in your terminal  
+```
+docker login dhi.io
+```
 2. Initialize Terraform:  
 ```
 terraform init
 ```  
-
-3. Deploy the stack:  
+3. Deploy the LAMP stack:  
 ```
 terraform apply -auto-approve
-```  
-
-4. Stop and remove the stack:  
+```
+4. Stop and remove the LAMP stack:  
 ```
 terraform destroy -auto-approve
-```  
+```
+
+#### <ins>Method 2:</ins> Deploy LAMP Stack using GitHub Actions
+- Set up your DOCKERHUB_USERNAME and DOCKERHUB_TOKEN secrets in GitHub Actions.
+- The provided GitHub Action is for deploying the LAMP Stack on local machine (self-hosted runner.) And they are triggered by workflow_dispatch. Change to other trigger if you wish.
+  - To register a Local Self-Hosted Runner, flow the below steps:
+    - In your GitHub repo, go to Settings > Actions > Runners > New self-hosted runner.
+    - Download and configure the runner package on your local machine, then start it (./run.sh).
+- There are two Gihub Actions workflow files (deploy.yml and cleanup.yml).
+    - deploy.yml: Deploy the LAMP Stack on your local machine.
+    - cleanup.yml: Delete all infrastructure resources, remove Docker containers and docker network.
